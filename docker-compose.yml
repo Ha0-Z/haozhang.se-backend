@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      DATABASE_URL: postgres://postgres:A2025zh@localhost:5432/hcalendar
