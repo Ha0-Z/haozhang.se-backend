@@ -3,8 +3,6 @@ from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
 
-
-
 app = Flask(__name__)
 
 # Allowed tables
@@ -29,7 +27,7 @@ def execute_query(query, params=None, fetch_many=True):
     try:
         conn = get_db_connection()
         if not conn:
-            return None
+            return jsonify({"error": "Database connection error"})
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute(query, params)
 
@@ -65,7 +63,7 @@ def request_fetch():
     if table == "stage":
         stage_number = request.args.get('stage_number')
         stage_index = request.args.get('stage_index')
-        query = f"SELECT * FROM stage WHERE stage_numer = %s AND stage_index = %s"
+        query = f"SELECT * FROM stage WHERE stage_number = %s AND stage_index = %s"
         return jsonify(execute_query(query, (stage_number,stage_index), fetch_many=False)), 200
     elif table == "event":
         if type == "week":
@@ -94,7 +92,6 @@ def request_fetch():
     elif type == "all":
         query = f"SELECT * FROM {table}"
         return jsonify(execute_query(query, fetch_many=True)), 200
-    
     
     return jsonify({"error": "Invalid fetch type"}), 400
 

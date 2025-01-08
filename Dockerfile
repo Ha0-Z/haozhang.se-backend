@@ -19,4 +19,4 @@ EXPOSE 5000
 ENV FLASK_APP app.py
 
 # Run app.py when the container launches
-CMD ["/app/venv/bin/flask", "run", "--host=0.0.0.0"]
+CMD ["/app/venv/bin/python", "app.py"]
