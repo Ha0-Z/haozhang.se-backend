@@ -2,25 +2,12 @@ from flask import Flask, request, jsonify
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
+from dbcoon import get_db_connection
 
 app = Flask(__name__)
 
 # Allowed tables
 ALLOWED_TABLES = ['event', 'sub_task', 'evaluation', 'stage', 'alarm','task','idea']
-
-# Database connection
-def get_db_connection():
-    try:
-        return connect(
-            dbname="hcalendar",
-            user="postgres",
-            password="A2025zh",
-            host="localhost",
-            port="5432"
-        )
-    except Exception as e:
-        app.logger.error(f"Database connection error: {e}")
-        return None
 
 # Execute query helper
 def execute_query(query, params=None, fetch_many=True):
